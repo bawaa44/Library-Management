@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package librarianmenu;
+package Library;
 
 /**
  *
  * @author User
  */
-public class librarian extends javax.swing.JFrame {
+public class librarianInterface extends javax.swing.JFrame {
 
     /**
      * Creates new form librarian
      */
-    public librarian() {
+    public librarianInterface() {
         initComponents();
     }
 
@@ -33,13 +33,8 @@ public class librarian extends javax.swing.JFrame {
         issuingBooks = new javax.swing.JButton();
         members = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        email = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        phoneNumber = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        edit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,12 +48,22 @@ public class librarian extends javax.swing.JFrame {
                 booksMouseClicked(evt);
             }
         });
+        books.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                booksActionPerformed(evt);
+            }
+        });
 
         issuingBooks.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         issuingBooks.setText("Issuing Books");
         issuingBooks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 issuingBooksMouseClicked(evt);
+            }
+        });
+        issuingBooks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issuingBooksActionPerformed(evt);
             }
         });
 
@@ -77,54 +82,27 @@ public class librarian extends javax.swing.JFrame {
 
         logout.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         logout.setText("Logout");
-
-        name.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        name.setText("Name");
-
-        jLabel2.setText("jLabel2");
-
-        email.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        email.setText("E-mail");
-
-        jLabel3.setText("jLabel3");
-
-        phoneNumber.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        phoneNumber.setText("Phone Number");
-
-        jLabel5.setText("jLabel5");
-
-        edit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        edit.setText("EDIT");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logout)
                 .addGap(231, 231, 231))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(300, 300, 300)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(email)
-                            .addComponent(phoneNumber))
-                        .addGap(89, 89, 89)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(edit)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(members, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(books, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -134,34 +112,24 @@ public class librarian extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(books, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(name)
-                        .addComponent(jLabel2)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(books, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(email)
-                            .addComponent(jLabel3))
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(phoneNumber)
-                            .addComponent(jLabel5)))
+                        .addGap(43, 43, 43)
+                        .addComponent(issuingBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(members, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(logout))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(issuingBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(members, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(edit))
-                .addGap(38, 38, 38)
-                .addComponent(logout)
-                .addContainerGap(165, Short.MAX_VALUE))
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel3)
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel5))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -187,28 +155,46 @@ public class librarian extends javax.swing.JFrame {
     private void membersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersActionPerformed
         // TODO add your handling code here:
         
-        category c = new category();
-        c.setVariable(true);
+        MemberForm mf = new MemberForm();
+        mf.setVisible(true);
+        
         
     }//GEN-LAST:event_membersActionPerformed
 
     private void membersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_membersMouseClicked
         // TODO add your handling code here:
-        new Members().SetVisible(true);
-        this.setVisible(false);
+      
     }//GEN-LAST:event_membersMouseClicked
 
     private void issuingBooksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_issuingBooksMouseClicked
         // TODO add your handling code here:
-        new Issuingbooks().SetVisible(true);
-        this.setVisible(false);
+       /* new Issuingbooks().SetVisible(true);
+        this.setVisible(false);*/
     }//GEN-LAST:event_issuingBooksMouseClicked
 
     private void booksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseClicked
         // TODO add your handling code here:
-        new Books().SetVisible(true);
-        this.setVisible(false);
+       /* new Books().SetVisible(true);
+        this.setVisible(false);*/
     }//GEN-LAST:event_booksMouseClicked
+
+    private void booksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_booksActionPerformed
+        // TODO add your handling code here:
+        Books b = new Books();
+        b.setVisible(true);
+    }//GEN-LAST:event_booksActionPerformed
+
+    private void issuingBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issuingBooksActionPerformed
+        // TODO add your handling code here:
+        IssuedBooks i = new IssuedBooks();
+        i.setVisible(true);
+    }//GEN-LAST:event_issuingBooksActionPerformed
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+        Login g = new Login();
+        g.setVisible(true);
+    }//GEN-LAST:event_logoutActionPerformed
 
     
     
@@ -242,24 +228,20 @@ public class librarian extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new librarian().setVisible(true);
+                new librarianInterface().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton books;
-    private javax.swing.JButton edit;
-    private javax.swing.JLabel email;
     private javax.swing.JButton issuingBooks;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton logout;
     private javax.swing.JButton members;
-    private javax.swing.JLabel name;
-    private javax.swing.JLabel phoneNumber;
     // End of variables declaration//GEN-END:variables
 
+}

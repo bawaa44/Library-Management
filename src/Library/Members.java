@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.mgt;
+package Library;
 
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +31,7 @@ public class Members extends javax.swing.JFrame {
      */
     public Members() {
         initComponents();
-        Connect();
+        //Connect();
         member_load();
         
     }
@@ -38,29 +41,32 @@ public class Members extends javax.swing.JFrame {
     PreparedStatement pst;
     ResultSet rs;
     
-    public void Connect()
-    {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/memberstable","root","");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
         
         
         
                 
-    }
+    
     
     public void member_load()
     {
      int c;
      
         try {
-            pst = con.prepareStatement("select * from members");
-            rs = pst.executeQuery();
+            DBConnection dc = new DBConnection();
+         try {
+             con = dc.getConnection();    
+         } catch (Exception ex) {
+             Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);
+         }
+            
+         try {
+             pst = dc.getConnection().prepareStatement("select * from members");
+         } catch (Exception ex) {
+             Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         
+         rs = pst.executeQuery();
             
             ResultSetMetaData rsd = rs.getMetaData();
             c = rsd.getColumnCount();
@@ -77,11 +83,13 @@ public class Members extends javax.swing.JFrame {
                 
                 for(int i = 1; i<=c; i++)
                 {
-                    v2.add(rs.getString("ID"));
-                    v2.add(rs.getString("Name"));
-                    v2.add(rs.getString("Address"));
-                    v2.add(rs.getString("E-mail"));
-                    v2.add(rs.getString("Mobile"));
+                    v2.add(rs.getString("memberId"));
+                    v2.add(rs.getString("memberName"));
+                    v2.add(rs.getString("address"));
+                    v2.add(rs.getString("contact_no"));
+                    v2.add(rs.getString("email"));
+                    v2.add(rs.getString("membershipDate"));
+                    v2.add(rs.getString("memberShipFee"));
                 }
                 
                 d.addRow(v2);
@@ -122,6 +130,13 @@ public class Members extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         memberTable1 = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        memberFee = new javax.swing.JTextField();
+        memberDate = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        memberId = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,11 +201,11 @@ public class Members extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Address", "E-mail", "Mobile"
+                "ID", "Name", "Address", "Mobile", "E-mail", "MembershipDate", "MembershipFee"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -203,6 +218,22 @@ public class Members extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(memberTable1);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setText("Membership Date");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setText("Membership Fee");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Edit Member ID:");
+
+        jButton5.setText("SEARCH");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -224,54 +255,82 @@ public class Members extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(address)
                             .addComponent(name)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(mobile, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                        .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                        .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                        .addComponent(memberFee, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                        .addComponent(memberDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(mobile, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(memberId, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton5)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(48, 48, 48)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(address)
-                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(mobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(86, 86, 86)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addGap(48, 48, 48)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(name)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(address)
+                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(mobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(128, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(memberDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(memberFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(memberId)
+                                    .addComponent(jButton5)))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -302,14 +361,18 @@ public class Members extends javax.swing.JFrame {
         String Address = txtAddress.getText();
         String Email = txtEmail.getText();
         String Mobile = mobile.getText();
-        
+        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+        String MemberDate = date_format.format(memberDate.getDate());
+        String MemberFee = memberFee.getText();
         
         try {
-            pst = con.prepareStatement("insert into members(Name,Address,E-mail,Mobile)values(?,?,?,?)");
+            pst = con.prepareStatement("insert into members(memberName,address,contact_no,email,membershipDate,membershipFee)values(?,?,?,?,?,?)");
             pst.setString(1, Name);
             pst.setString(2, Address);
-            pst.setString(3, Email);
-            pst.setString(4, Mobile);
+            pst.setString(3, Mobile);
+            pst.setString(4, Email);
+            pst.setString(5, MemberDate);
+            pst.setString(6, MemberFee);
             int k = pst.executeUpdate();
             
             if(k == 1)
@@ -317,8 +380,10 @@ public class Members extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Member Created");
                 txtName.setText("");
                 txtAddress.setText("");
-                txtEmail.setText("");
                 mobile.setText("");
+                txtEmail.setText("");
+                memberDate.setCalendar(null);
+                memberFee.setText("");
                 txtName.requestFocus();
                 member_load();
           
@@ -349,38 +414,43 @@ public class Members extends javax.swing.JFrame {
         
         txtName.setText(d1.getValueAt(selectIndex, 1).toString());
         txtAddress.setText(d1.getValueAt(selectIndex, 2).toString());
-        txtEmail.setText(d1.getValueAt(selectIndex, 3).toString());
-        mobile.setText(d1.getValueAt(selectIndex, 4).toString());
+        mobile.setText(d1.getValueAt(selectIndex, 3).toString());
+        txtEmail.setText(d1.getValueAt(selectIndex, 4).toString());
+        //memberDate.setDate(d1.getValueAt(selectIndex, 5).toString());
+        memberFee.setText(d1.getValueAt(selectIndex, 6).toString());
         
         
-        memberTable1.setEnabled(false);
+        jButton1.setEnabled(false);
     }//GEN-LAST:event_memberTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         
         
-        DefaultTableModel d1 = (DefaultTableModel)memberTable1.getModel();
+        //DefaultTableModel d1 = (DefaultTableModel)memberTable1.getModel();
         
-        int selectIndex = memberTable1.getSelectedRow();
-        
-        int ID = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
+        //int selectIndex = memberTable1.getSelectedRow();
+        int ID = Integer.parseInt(memberId.getText());
+        //int ID = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
         
         String Name = txtName.getText();
         String Address = txtAddress.getText();
-        String Email = txtEmail.getText();
         String Mobile = mobile.getText();
+        String Email = txtEmail.getText();
+        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+        String MemberDate = date_format.format(memberDate.getDate());
+        String MemberFee = memberFee.getText();
         
         
         try {
-            pst = con.prepareStatement("update members set Name=?, Address=?,Email=?,Mobile=? where ID = ?");
+            pst = con.prepareStatement("update members set memberName=?, address=?, contact_no=?, email=?, membershipDate=?, membershipFee=? where memberId = ?");
             pst.setString(1, Name);
             pst.setString(2, Address);
-            pst.setString(3, Email);
             pst.setString(4, Mobile);
-            
-            pst.setInt(5, ID);
-            
+            pst.setString(3, Email);
+            pst.setString(5, MemberDate);
+            pst.setString(6, MemberFee);
+            pst.setInt(7, ID);
             int k = pst.executeUpdate();
             
             if(k == 1)
@@ -388,11 +458,13 @@ public class Members extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Member Updated");
                 txtName.setText("");
                 txtAddress.setText("");
-                txtEmail.setText("");
                 mobile.setText("");
+                txtEmail.setText("");
+                memberDate.setCalendar(null);
+                memberFee.setText("");
                 txtName.requestFocus();
                 member_load();
-                memberTable1.setEnabled(true);
+                jButton1.setEnabled(true);
           
                
             }
@@ -411,15 +483,15 @@ public class Members extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)memberTable1.getModel();
+        //DefaultTableModel d1 = (DefaultTableModel)memberTable1.getModel();
         
-        int selectIndex = memberTable1.getSelectedRow();
+        //int selectIndex = memberTable1.getSelectedRow();
         
-        int ID = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
-        
+        //int ID = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
+        int ID = Integer.parseInt(memberId.getText());
         
         try {
-            pst = con.prepareStatement("delete from members where ID = ?");
+            pst = con.prepareStatement("delete from members where memberId = ?");
             
             pst.setInt(1, ID);
             
@@ -430,9 +502,11 @@ public class Members extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Member Deleted");
                 txtName.setText("");
                 txtAddress.setText("");
-                txtEmail.setText("");
                 mobile.setText("");
-                txtName.requestFocus();
+                txtEmail.setText("");
+                memberDate.setCalendar(null);
+                memberFee.setText("");
+                //txtName.requestFocus();
                 member_load();
                 memberTable1.setEnabled(true);
           
@@ -453,9 +527,46 @@ public class Members extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        librarianInterface li = new librarianInterface();
+        li.setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            // TODO add your handling code here:
+            pst = con.prepareStatement("select * from members where memberId=?");
+            
+            int id = Integer.parseInt(memberId.getText());
+            pst.setInt(1,id);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()==false){
+                JOptionPane.showMessageDialog(this, "Sorry Record not found");
+                txtName.setText("");
+                txtAddress.setText("");
+                mobile.setText("");
+                txtEmail.setText("");
+                //memberDate.setCalendar(null);
+                memberFee.setText("");
+                
+                memberId.requestFocus();
+            }
+            else{
+                txtName.setText(rs.getString("memberName"));
+                txtAddress.setText(rs.getString("address"));
+                mobile.setText(rs.getString("contact_no"));
+                txtEmail.setText(rs.getString("email"));
+                memberDate.setDate(rs.getDate("membershipDate"));
+                memberFee.setText(rs.getString("membershipFee"));
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -498,13 +609,20 @@ public class Members extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private com.toedter.calendar.JDateChooser memberDate;
+    private javax.swing.JTextField memberFee;
+    private javax.swing.JTextField memberId;
     private javax.swing.JTable memberTable1;
     private javax.swing.JTextField mobile;
     private javax.swing.JLabel name;
@@ -513,3 +631,7 @@ public class Members extends javax.swing.JFrame {
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
+    private String date_format(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}

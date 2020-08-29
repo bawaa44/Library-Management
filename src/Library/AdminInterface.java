@@ -154,18 +154,26 @@ public class AdminInterface extends javax.swing.JFrame {
 
     private void membersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersActionPerformed
         // TODO add your handling code here:
+        Members m = new Members();
+        m.setVisible(true);
     }//GEN-LAST:event_membersActionPerformed
 
     private void booksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_booksActionPerformed
         // TODO add your handling code here:
+        Books b = new Books();
+        b.setVisible(true);
     }//GEN-LAST:event_booksActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
+        Login g = new Login();
+        g.setVisible(true);
     }//GEN-LAST:event_logoutActionPerformed
 
     private void issuingbooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issuingbooksActionPerformed
         // TODO add your handling code here:
+        IssuedBooks i = new IssuedBooks();
+        i.setVisible(true);
     }//GEN-LAST:event_issuingbooksActionPerformed
 
     /**
