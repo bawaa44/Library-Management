@@ -160,8 +160,13 @@ public class Login extends javax.swing.JFrame {
         });
 
         jButton4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jButton4.setText("Back");
+        jButton4.setText("Exit");
         jButton4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,7 +258,7 @@ public class Login extends javax.swing.JFrame {
                      try {
                             Class.forName("com.mysql.jdbc.Driver");
                             con = DriverManager.getConnection("jdbc:mysql://localhost/library","root","");
-                            String selectQuery = "SELECT * FROM users WHERE username =  AND password = ? ";
+                            String selectQuery = "SELECT * FROM users WHERE username = ? AND password = ? ";
                             PreparedStatement pst = con.prepareStatement(selectQuery);
                             pst.setString(1,username);
                             pst.setString(2,pass);
@@ -292,6 +297,11 @@ public class Login extends javax.swing.JFrame {
                 }
                 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.hide();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

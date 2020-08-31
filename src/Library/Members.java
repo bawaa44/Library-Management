@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -189,7 +191,7 @@ public class Members extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("CANCEL");
+        jButton4.setText("Back");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -366,6 +368,32 @@ public class Members extends javax.swing.JFrame {
         String MemberFee = memberFee.getText();
         
         try {
+        if(Name.equals("")){
+            JOptionPane.showMessageDialog(null, "Name is Mandotory");
+        }
+        if(Address.equals("")){
+            JOptionPane.showMessageDialog(null, "Address is Mandotory");
+        }
+        if(Mobile.equals("")){
+            JOptionPane.showMessageDialog(null, "Contact number is Mandotory");
+        }
+        
+        if(Email.equals("")){
+            JOptionPane.showMessageDialog(null, "Email is Mandotory");
+        }
+        String EMAIL_PATTERN = "^[a-zA-Z0-9]{1,20}@[a-zA-Z0-9]{1,20}.[a-zA-Z0-9]{2,3}$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher regexMatcher = pattern.matcher(txtEmail.getText());
+        if(!regexMatcher.matches()){
+            JOptionPane.showMessageDialog(null, "Email Format is incorrect");
+        }
+        if(MemberDate.equals("")){
+            JOptionPane.showMessageDialog(null, "Member date is Mandotory");
+        }
+        if(MemberFee.equals("")){
+            JOptionPane.showMessageDialog(null, "Member fee is Mandotory");
+        }
+            
             pst = con.prepareStatement("insert into members(memberName,address,contact_no,email,membershipDate,membershipFee)values(?,?,?,?,?,?)");
             pst.setString(1, Name);
             pst.setString(2, Address);
@@ -527,8 +555,8 @@ public class Members extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        librarianInterface li = new librarianInterface();
-        li.setVisible(true);
+        AdminInterface ai = new AdminInterface();
+        ai.setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_jButton4ActionPerformed

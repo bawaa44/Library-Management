@@ -42,17 +42,17 @@ public class IssuedBooks extends javax.swing.JFrame {
            
             DBConnection dc = new DBConnection();
             try {
-                con = DBConnection.getConnection();
+                con = dc.getConnection();
             } catch (Exception ex) {
                 Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                DBConnection.getConnection();
+                dc.getConnection();
             } catch (Exception ex) {
                 Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                pst=DBConnection.getConnection().prepareStatement("select * from issued_books");
+                pst=dc.getConnection().prepareStatement("select * from issued_books");
             } catch (Exception ex) {
                 Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -103,9 +103,9 @@ public class IssuedBooks extends javax.swing.JFrame {
         issueBtnAdd = new javax.swing.JButton();
         issueBtnUpdate = new javax.swing.JButton();
         issueBtnDelete = new javax.swing.JButton();
-        issueBtnCancel = new javax.swing.JButton();
+        issueBtnBack = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        txtSearchIssue = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -170,18 +170,38 @@ public class IssuedBooks extends javax.swing.JFrame {
 
         issueBtnDelete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         issueBtnDelete.setText("Delete");
+        issueBtnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issueBtnDeleteActionPerformed(evt);
+            }
+        });
 
-        issueBtnCancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        issueBtnCancel.setText("Cancel");
+        issueBtnBack.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        issueBtnBack.setText("Back");
+        issueBtnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issueBtnBackActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Search Issued Date :");
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("Cancel");
+        jButton2.setText("Clear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTableIssue.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -197,6 +217,11 @@ public class IssuedBooks extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTableIssue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableIssueMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTableIssue);
@@ -228,7 +253,7 @@ public class IssuedBooks extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
-                                .addComponent(txtSearchIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -240,7 +265,7 @@ public class IssuedBooks extends javax.swing.JFrame {
                                         .addGap(44, 44, 44)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(issueBtnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(issueBtnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(issueBtnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -298,11 +323,11 @@ public class IssuedBooks extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(issueBtnDelete)
-                            .addComponent(issueBtnCancel))
+                            .addComponent(issueBtnBack))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtSearchIssue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1)
                             .addComponent(jButton2))
                         .addGap(86, 86, 86))
@@ -312,6 +337,7 @@ public class IssuedBooks extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     public class BookItem{
             int bookID;
@@ -384,6 +410,28 @@ public class IssuedBooks extends javax.swing.JFrame {
         String fine = txtFine.getText();
      
         try {
+        if(bookId.equals("")){
+            JOptionPane.showMessageDialog(null, "Book ID is Mandotory");
+        }
+        if(bookName.equals("")){
+            JOptionPane.showMessageDialog(null, "Book name is Mandotory");
+        }
+        if(memberName.equals("")){
+            JOptionPane.showMessageDialog(null, "Member name number is Mandotory");
+        }
+        if(issuedDate.equals("")){
+            JOptionPane.showMessageDialog(null, "Issued date is Mandotory");
+        }
+        if(returnDate.equals("")){
+            JOptionPane.showMessageDialog(null, "Return date is Mandotory");
+        }
+        if(receivedDate.equals("")){
+            JOptionPane.showMessageDialog(null, "Received date is Mandotory");
+        }
+        if(fine.equals("")){
+            JOptionPane.showMessageDialog(null, "Fine is Mandotory");
+        }
+            
             pst = con.prepareStatement("insert into issued_books(bookId,bookName,memberName,issuedDate,returnDate,receivedDate,fine) values(?,?,?,?,?,?,?)");
          
             pst.setString(1,bookId);
@@ -417,54 +465,166 @@ public class IssuedBooks extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_issueBtnAddActionPerformed
-
+    
+    
     private void issueBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueBtnUpdateActionPerformed
         // TODO add your handling code here:
         //UPDATE
-        int issuedId = Integer.parseInt(txtSearchIssue.getText());
-        //int bookId = Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
+        //DefaultTableModel d1 = (DefaultTableModel)jTableIssue.getModel();
+        //int selectIndex = jTableIssue.getSelectedRow();
+        //int issuedId = Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
+        int id = Integer.parseInt(txtSearch.getText());
+        
         String bookId = txtBookID.getText();
         String bookName = txtBookName.getText();
         String memberName = txtMemberName.getText();
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
-        String issuedDate =date_format.format(jDateIssue.getDate());
+        String issuedDate = date_format.format(jDateIssue.getDate());
         SimpleDateFormat date_format1 = new SimpleDateFormat("yyyy-MM-dd");
-        String returnDate =date_format1.format(jDateReturn.getDate());
+        String returnDate = date_format1.format(jDateReturn.getDate());
         SimpleDateFormat date_format2 = new SimpleDateFormat("yyyy-MM-dd");
-        String receivedDate =date_format2.format(jDateReceived.getDate());
+        String receivedDate = date_format2.format(jDateReceived.getDate());
         String fine = txtFine.getText();
-
+        
         try {
-            pst = con.prepareStatement("update issudId set bookId = ?,bookName= ?, memberName = ?, issuedDate = ?, returnDate = ?, receiveDate = ?, fine = ? where bookId = ?");
-            pst.setString(1,bookId);
-            pst.setString(2,bookName);
-            pst.setString(3,memberName);
-            pst.setString(4,issuedDate);
-            pst.setString(5,returnDate); 
-            pst.setString(6,receivedDate); 
-            pst.setString(7,fine);
+            pst = con.prepareStatement("update issued_books set bookId = ?, bookName=?, memberName=?, issuedDate=?, returnDate=?, receivedDate=?, fine=? where issuedId=?");
+            pst.setString(1, bookId);
+            pst.setString(2, bookName);
+            pst.setString(3, memberName);
+            pst.setString(4, issuedDate);
+            pst.setString(5, returnDate);
+            pst.setString(6, receivedDate);
+            pst.setString(7, fine);
+            pst.setInt(8, id);
+            int k = pst.executeUpdate();
             
-            int i = pst.executeUpdate();
-           
-            if (i==1){
-                JOptionPane.showMessageDialog(this, "Book Issued");
+            if(k==1){
+                JOptionPane.showMessageDialog(this, "Issued Book Updated");
                 txtBookID.setText("");
                 txtBookName.setText("");
                 txtMemberName.setText("");
-                txtFine.setText("");
                 jDateIssue.setCalendar(null);
                 jDateReturn.setCalendar(null);
                 jDateReceived.setCalendar(null);
+                txtFine.setText("");
                 IssuedBooksLoad();
-                
-            }else{
+                issueBtnAdd.setEnabled(true);
+            }
+            else{
                 JOptionPane.showMessageDialog(this, "Error");
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
     }//GEN-LAST:event_issueBtnUpdateActionPerformed
+    
     }
+    
+    private void jTableIssueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableIssueMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel d1 = (DefaultTableModel)jTableIssue.getModel();
+        int selectIndex = jTableIssue.getSelectedRow();
+         
+         int issuedId = Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
+         txtBookID.setText(d1.getValueAt(selectIndex,1).toString());
+         txtBookName.setText(d1.getValueAt(selectIndex,2).toString());
+         txtMemberName.setText(d1.getValueAt(selectIndex,3).toString());      
+         txtFine.setText(d1.getValueAt(selectIndex,7).toString()); 
+         
+         issueBtnAdd.setEnabled(false);
+    }//GEN-LAST:event_jTableIssueMouseClicked
+
+    private void issueBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueBtnDeleteActionPerformed
+        // TODO add your handling code here:
+        //DefaultTableModel d1 = (DefaultTableModel)jTableIssue.getModel();
+        //int selectIndex = jTableIssue.getSelectedRow();
+        //int issuedId = Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
+        int id = Integer.parseInt(txtSearch.getText());
+        try {
+            pst = con.prepareStatement("delete from issued_books where issuedId = ?");
+            
+            pst.setInt(1,id);
+            int k = pst.executeUpdate();
+            
+            if(k==1){
+                JOptionPane.showMessageDialog(this, "Issued Book Deleted");
+                txtBookID.setText("");
+                txtBookName.setText("");
+                txtMemberName.setText("");
+                jDateIssue.setCalendar(null);
+                jDateReturn.setCalendar(null);
+                jDateReceived.setCalendar(null);
+                txtFine.setText("");
+                IssuedBooksLoad();
+                issueBtnAdd.setEnabled(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                
+    }//GEN-LAST:event_issueBtnDeleteActionPerformed
+
+    private void issueBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueBtnBackActionPerformed
+        // TODO add your handling code here:
+        librarianInterface li = new librarianInterface();
+        li.setVisible(true);
+        this.hide();
+    }//GEN-LAST:event_issueBtnBackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            pst = con.prepareStatement("select * from issued_books where issuedId=?");
+            
+            int id = Integer.parseInt(txtSearch.getText());
+            pst.setInt(1,id);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()==false){
+                JOptionPane.showMessageDialog(this, "Sorry Record not Found");
+                txtBookID.setText("");
+                txtBookName.setText("");
+                txtMemberName.setText("");
+                jDateIssue.setCalendar(null);
+                jDateReturn.setCalendar(null);
+                jDateReceived.setCalendar(null);
+                txtFine.setText("");
+                txtSearch.requestFocus();
+            }
+            else{
+                txtBookID.setText(rs.getString("bookId"));
+                txtBookName.setText(rs.getString("bookName"));
+                txtMemberName.setText(rs.getString("memberName"));
+                jDateIssue.setDate(rs.getDate("issuedDate"));
+                jDateReturn.setDate(rs.getDate("returnDate"));
+                jDateReceived.setDate(rs.getDate("receivedDate"));
+                txtFine.setText(rs.getString("fine"));
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        //CLAER
+        txtBookID.setText("");
+        txtBookName.setText("");
+        txtMemberName.setText("");
+        txtFine.setText("");
+        jDateIssue.setCalendar(null);
+        jDateReturn.setCalendar(null);
+        jDateReceived.setCalendar(null);
+        txtSearch.setText(null);
+    }//GEN-LAST:event_jButton2ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -500,7 +660,7 @@ public class IssuedBooks extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton issueBtnAdd;
-    private javax.swing.JButton issueBtnCancel;
+    private javax.swing.JButton issueBtnBack;
     private javax.swing.JButton issueBtnDelete;
     private javax.swing.JButton issueBtnUpdate;
     private javax.swing.JButton jButton1;
@@ -523,6 +683,6 @@ public class IssuedBooks extends javax.swing.JFrame {
     private javax.swing.JTextField txtBookName;
     private javax.swing.JTextField txtFine;
     private javax.swing.JTextField txtMemberName;
-    private javax.swing.JTextField txtSearchIssue;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
