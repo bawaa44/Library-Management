@@ -55,15 +55,11 @@ public class Librarian extends javax.swing.JFrame {
            DBConnection dc = new DBConnection();
             try {
                 con = dc.getConnection();
-            } catch (Exception ex) {
-                Logger.getLogger(Librarian.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+            
+                
                 dc.getConnection();
-            } catch (Exception ex) {
-                Logger.getLogger(Librarian.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+            
+                
                 pst=dc.getConnection().prepareStatement("select * from librarian");
             } catch (Exception ex) {
                 Logger.getLogger(Librarian.class.getName()).log(Level.SEVERE, null, ex);

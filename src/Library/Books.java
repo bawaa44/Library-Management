@@ -47,15 +47,10 @@ public class Books extends javax.swing.JFrame {
             DBConnection dc = new DBConnection();
             try {
                 con = dc.getConnection();
-            } catch (Exception ex) {
-                Logger.getLogger(Books.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+            
                 dc.getConnection();
-            } catch (Exception ex) {
-                Logger.getLogger(Books.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+            
+                
                 pst=dc.getConnection().prepareStatement("select * from books");
             } catch (Exception ex) {
                 Logger.getLogger(Books.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,6 +70,7 @@ public class Books extends javax.swing.JFrame {
                    v2.add(rs.getString("bookName")); 
                    v2.add(rs.getString("author"));
                    v2.add(rs.getString("isbn"));
+                   System.out.println(rs.getString("purDate"));
                    v2.add(rs.getString("purDate"));
                    v2.add(rs.getString("recDate"));
                }
@@ -264,7 +260,7 @@ public class Books extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblPurchased)
                                 .addGap(18, 18, 18)
-                                .addComponent(jDatePurchased, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jDatePurchased, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblSearch)
@@ -272,7 +268,7 @@ public class Books extends javax.swing.JFrame {
                                         .addComponent(lblReceived)
                                         .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(60, 60, 60)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -283,9 +279,10 @@ public class Books extends javax.swing.JFrame {
                                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(39, 39, 39)
                                         .addComponent(jButton5))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jDateReceived, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jDateReceived, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(421, 421, 421)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -318,10 +315,10 @@ public class Books extends javax.swing.JFrame {
                             .addComponent(lblISBN)
                             .addComponent(txtISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblPurchased)
                             .addComponent(jDatePurchased, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblReceived)
                             .addComponent(jDateReceived, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -492,7 +489,7 @@ public class Books extends javax.swing.JFrame {
         // DELETE
           //DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         //int selectIndex = jTable1.getSelectedRow();
-         int bookId = Integer.parseInt(txtSearch.getText()); 
+        int bookId = Integer.parseInt(txtSearch.getText()); 
         //int bookId = Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
         
         try {

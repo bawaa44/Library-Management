@@ -39,15 +39,11 @@ public class librarianInterface extends javax.swing.JFrame {
             DBConnection dc = new DBConnection();
             try {
                 con = dc.getConnection();
-            } catch (Exception ex) {
-                Logger.getLogger(Books.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+            
+                
                 dc.getConnection();
-            } catch (Exception ex) {
-                Logger.getLogger(Books.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+           
+                
                 pst=dc.getConnection().prepareStatement("select * from librarian");
             } catch (Exception ex) {
                 Logger.getLogger(Books.class.getName()).log(Level.SEVERE, null, ex);
@@ -432,13 +428,13 @@ public class librarianInterface extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(librarianInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(librarianInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(librarianInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(librarianInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

@@ -58,11 +58,8 @@ public class Members extends javax.swing.JFrame {
             DBConnection dc = new DBConnection();
          try {
              con = dc.getConnection();    
-         } catch (Exception ex) {
-             Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);
-         }
-            
-         try {
+         
+             
              pst = dc.getConnection().prepareStatement("select * from members");
          } catch (Exception ex) {
              Logger.getLogger(Members.class.getName()).log(Level.SEVERE, null, ex);

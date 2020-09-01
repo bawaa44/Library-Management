@@ -36,15 +36,11 @@ public class IssuedBookForm extends javax.swing.JFrame {
     DBConnection dc = new DBConnection();
         try {
             con = dc.getConnection();
-        } catch (Exception ex) {
-            Logger.getLogger(IssuedBookForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
+        
+            
             dc.getConnection();
-        } catch (Exception ex) {
-            Logger.getLogger(IssuedBookForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
+        
+            
             pst=dc.getConnection().prepareStatement("select * from issued_books");
         } catch (Exception ex) {
             Logger.getLogger(IssuedBookForm.class.getName()).log(Level.SEVERE, null, ex);
